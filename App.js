@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {createAppContainer,createSwitchNavigator} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation-drawer'
+
+import Welcome from './screens/SignupLoginScreen';
+import Settings from './screens/SettingsScreen'
+import CustomSlideBarMenu from './components/CustomSlideBarMenu';
+import {AppTabNavigator} from './components/AppTabNavigator'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+   <AppContainer/>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+
+const AppDrawerNavigator = createDrawerNavigator({
+  Home:{
+   screen:AppTabNavigator
   },
+  Settings:{
+    screen:Settings
+  },
+ },
+ {
+   contentComponent:CustomSlideBarMenu,
+   TextComponent: "Bartender App",
+ },
+ {
+  initialRouteName: 'Home'
+ });
+
+const switchNavigator = createSwitchNavigator({
+  WelcomeScreen:{screen: Welcome},
+  DrawerNavigator:{screen: AppDrawerNavigator}
 });
+
+const AppContainer = createAppContainer(switchNavigator);
